@@ -29,4 +29,5 @@ return [
     'DoctrineORMModule',
     'Application',
     'User',
+    'Message',
 ];

@@ -55,7 +55,17 @@ return [
                     'route' => '/logout',
                     'defaults' => [
                         'controller' => Controller\AuthController::class,
-                        'action' => 'logout',
+                        'action' => 'submitLogout',
+                    ],
+                ],
+            ],
+            'getCurrentUser' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/getCurrentUser',
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action' => 'getCurrentUser',
                     ],
                 ],
             ],
@@ -83,7 +93,7 @@ return [
         'display_exceptions' => true,
         'doctype' => 'HTML5',
         'template_map' => [
-            'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
+            'user/layout' => __DIR__ . '/../view/layout/user.phtml',
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',

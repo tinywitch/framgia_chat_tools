@@ -31,8 +31,8 @@
     "autoload": {
         "psr-4": {
             "Application\\": "module/Application/src/",
-            "User\\": "module/User/src/"
-
+            "User\\": "module/User/src/",
+            "Message\\": "module/Message/src/"
         }
     },
     "autoload-dev": {

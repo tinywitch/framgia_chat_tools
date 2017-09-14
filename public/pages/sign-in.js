@@ -1,14 +1,22 @@
-$(function () {
-    $('#sign_in').validate({
-        highlight: function (input) {
-            console.log(input);
-            $(input).parents('.form-line').addClass('error');
+window.onload = function () {
+    var app = new Vue({
+        el: '#sign_in',
+        data: {
+            user: {
+                email: '',
+                password: ''
+            }
         },
-        unhighlight: function (input) {
-            $(input).parents('.form-line').removeClass('error');
-        },
-        errorPlacement: function (error, element) {
-            $(element).parents('.input-group').append(error);
+        methods: {
+            submit: function () {
+                console.log(this.user);
+                // axios.post('/submit-login', this.user).then(result => {
+                //     console.log(result);
+                // });
+                $.post("/submit-login", this.user, function (data, status) {
+                        console.log("Data: " + data + "\nStatus: " + status);
+                });
+            }
         }
     });
-});
+}

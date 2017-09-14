@@ -1,59 +1,68 @@
 <?= $this->doctype() ?>
 
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <?= $this->headTitle('Chatting Application')->setSeparator(' - ')->setAutoEscape(false) ?>
+<head>
+    <meta charset="utf-8">
+    <?= $this->headTitle('Chatting Application')->setSeparator(' - ')->setAutoEscape(false) ?>
 
-        <?= $this->headMeta()
-            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
-            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
-        ?>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <?= $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+    ?>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+          type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
-        <!-- Le styles -->
-        <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
-            ->prependStylesheet($this->basePath('css/themes/theme-deep-orange.min.css'))
-            ->prependStylesheet($this->basePath('css/style.css'))
-            ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
-        ?>
+    <!-- Le styles -->
+    <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
+        ->prependStylesheet($this->basePath('css/app.css'))
+        ->prependStylesheet($this->basePath('css/waves.min.css'))
+        ->prependStylesheet($this->basePath('css/themes/theme-deep-orange.min.css'))
+        ->prependStylesheet($this->basePath('css/style.css'))
+        ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+    ?>
 
-        <!-- Scripts -->
-        <?= $this->headScript()
-            ->prependFile($this->basePath('js/admin.js'))
-            ->prependFile($this->basePath('js/bootstrap.min.js'))
-            ->prependFile($this->basePath('js/jquery-2.2.4.min.js'))
-        ?>
-    </head>
-    <body class="theme-deep-orange">
+    <!-- Scripts -->
+    <?= $this->headScript()
+        ->prependFile($this->basePath('pages/home.js'))
+        ->prependFile($this->basePath('js/vue-scroller.js'))
+        ->prependFile($this->basePath('js/waves.min.js'))
+        ->prependFile($this->basePath('js/admin.js'))
+        ->prependFile($this->basePath('js/axios.min.js'))
+        ->prependFile($this->basePath('js/vue.js'))
+        ->prependFile($this->basePath('js/bootstrap.min.js'))
+        ->prependFile($this->basePath('js/jquery-2.2.4.min.js'))
+    ?>
+</head>
+<body  class="theme-deep-orange">
 
-    <div class="overlay"></div>
-    <nav class="navbar">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
-                <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="index.html">CHAT TOOL BY ZEND</a>
-            </div>
+<div class="overlay"></div>
+
+<nav class="navbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
+               data-target="#navbar-collapse" aria-expanded="false"></a>
+            <a href="javascript:void(0);" class="bars"></a>
+            <a class="navbar-brand" href="/home">CHAT TOOL BY ZEND</a>
         </div>
-    </nav>
-    <section>
+    </div>
+</nav>
+<div id="app">
+    <section id="sidebar">
         <aside id="leftsidebar" class="sidebar">
             <!-- User Info -->
             <div class="user-info">
                 <div class="image">
-                    <img src="images/user.png" width="48" height="48" alt="User" />
+                    <img src="images/user.png" width="48" height="48" alt="User"/>
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.fullname }}</div>
+                    <div class="email" >{{ user.email }}</div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                            <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
+                            <li><a href="/logout"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -63,12 +72,13 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="active">
-                        <a href="index.html">
-                            <i class="material-icons">home</i>
-                            <span>Home</span>
-                        </a>
-                    </li>
+                    <div v-if="user.role == '0'">
+                        <li v-for="chatroom in chatrooms">
+                            <a href="javascript:void(0)" @click="openChatroom(chatroom.id)">
+                                <span>{{ chatroom.user.fullname }}</span>
+                            </a>
+                        </li>
+                    </div>
                 </ul>
             </div>
             <!-- #Menu -->
@@ -90,7 +100,8 @@
 
         </div>
     </section>
-    <?= $this->inlineScript() ?>
+</div>
+<?= $this->inlineScript() ?>
 
-    </body>
+</body>
 </html>

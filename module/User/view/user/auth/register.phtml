@@ -1,13 +1,13 @@
-<div class="card">
+<div class="card" id="app" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="body">
-        <form id="sign_up" method="POST">
+        <div id="sign_up" >
             <div class="msg">Register a new membership</div>
             <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
                         </span>
                 <div class="form-line">
-                    <input type="text" class="form-control" name="namesurname" placeholder="Name Surname" required autofocus>
+                    <input type="text" class="form-control" v-model="user.fullname" placeholder="Full name" required autofocus>
                 </div>
             </div>
             <div class="input-group">
@@ -15,7 +15,7 @@
                             <i class="material-icons">email</i>
                         </span>
                 <div class="form-line">
-                    <input type="email" class="form-control" name="email" placeholder="Email Address" required>
+                    <input type="email" class="form-control" v-model="user.email"  placeholder="Email Address" required>
                 </div>
             </div>
             <div class="input-group">
@@ -23,7 +23,7 @@
                             <i class="material-icons">lock</i>
                         </span>
                 <div class="form-line">
-                    <input type="password" class="form-control" name="password" minlength="6" placeholder="Password" required>
+                    <input type="password" class="form-control" v-model="user.password"  minlength="6" placeholder="Password" required>
                 </div>
             </div>
             <div class="input-group">
@@ -31,20 +31,20 @@
                             <i class="material-icons">lock</i>
                         </span>
                 <div class="form-line">
-                    <input type="password" class="form-control" name="confirm" minlength="6" placeholder="Confirm Password" required>
+                    <input type="password" class="form-control" v-model="user.confirm"  minlength="6" placeholder="Confirm Password" required>
                 </div>
             </div>
 
-            <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">SIGN UP</button>
+            <button v-on:click="submit()" class="btn btn-block btn-lg bg-pink waves-effect" >SIGN UP</button>
 
             <div class="m-t-25 m-b--5 align-center">
                 <a href="/login">You already have a membership?</a>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
 
-<?= $this->headScript()
+<?= $this->inlineScript()
     ->appendFile($this->basePath('pages/sign-up.js'))
 ?>
