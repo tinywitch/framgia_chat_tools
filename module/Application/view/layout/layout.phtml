@@ -22,17 +22,7 @@
         ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
     ?>
 
-    <!-- Scripts -->
-    <?= $this->headScript()
-        ->prependFile($this->basePath('pages/home.js'))
-        ->prependFile($this->basePath('js/vue-scroller.js'))
-        ->prependFile($this->basePath('js/waves.min.js'))
-        ->prependFile($this->basePath('js/admin.js'))
-        ->prependFile($this->basePath('js/axios.min.js'))
-        ->prependFile($this->basePath('js/vue.js'))
-        ->prependFile($this->basePath('js/bootstrap.min.js'))
-        ->prependFile($this->basePath('js/jquery-2.2.4.min.js'))
-    ?>
+
 </head>
 <body  class="theme-deep-orange">
 
@@ -101,7 +91,18 @@
         </div>
     </section>
 </div>
+<!-- Scripts -->
+<?= $this->headScript()
+    ->prependFile($this->basePath('pages/home.js'))
+    ->prependFile('http://zendchat.app:8056/socket.io/socket.io.js')
+    ->prependFile($this->basePath('js/vue-scroller.js'))
+    ->prependFile($this->basePath('js/waves.min.js'))
+    ->prependFile($this->basePath('js/admin.js'))
+    ->prependFile($this->basePath('js/axios.min.js'))
+    ->prependFile($this->basePath('js/vue.js'))
+    ->prependFile($this->basePath('js/bootstrap.min.js'))
+    ->prependFile($this->basePath('js/jquery-2.2.4.min.js'))
+?>
 <?= $this->inlineScript() ?>
-
 </body>
 </html>

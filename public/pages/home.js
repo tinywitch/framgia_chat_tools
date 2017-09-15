@@ -1,4 +1,19 @@
-window.onload = function () {
+$(document).ready(function () {
+
+    var socket = io.connect('http://zendchat.app:8056/');
+    console.log(socket);
+
+    function emitMessage(message) {
+        console.log(socket);
+        console.log(message);
+        socket.emit('new message', message);
+    }
+
+    socket.on('new message', msg => {
+        app.messages.push(msg);
+        console.log(msg);
+    });
+
     var app = new Vue({
         el: '#app',
         data: {
@@ -13,6 +28,7 @@ window.onload = function () {
         created: function () {
             this.getCurrentUser();
         },
+
         methods: {
             getMessages: function () {
                 axios.get('/getmessages', {id: this.user.id})
@@ -34,16 +50,17 @@ window.onload = function () {
                 message = {
                     sender_id: this.user.id,
                     content: this.text,
-                    chatroom_id : this.current_chatroom
+                    chatroom_id: this.current_chatroom
                 };
-                this.messages.push(message);
+
+                emitMessage(message);
 
                 $.post("/sendmessage", {
                     sender_id: this.user.id,
                     content: this.text,
-                    chatroom_id : this.current_chatroom
+                    chatroom_id: this.current_chatroom
                 }, function (data, status) {
-                    console.log("Data: " + data + "\nStatus: " + status);
+
                 });
                 this.text = '';
 
@@ -62,12 +79,12 @@ window.onload = function () {
             },
 
             closeChatbox: function () {
-              this.isClosed = true;
+                this.isClosed = true;
             },
             openChatbox: function () {
-              this.isClosed = false;
+                this.isClosed = false;
             },
-            
+
             openChatroom: function (id) {
                 cr = this.chatrooms.find(c => c.id === id);
                 this.messages = cr.messages;
@@ -77,4 +94,4 @@ window.onload = function () {
             }
         }
     });
-}
+});
